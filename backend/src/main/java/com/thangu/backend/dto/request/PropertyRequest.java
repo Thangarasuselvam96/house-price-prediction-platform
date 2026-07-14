@@ -4,6 +4,7 @@ package com.thangu.backend.dto.request;
 import com.thangu.backend.common.enums.ListingStatus;
 import com.thangu.backend.common.enums.ListingType;
 import com.thangu.backend.common.enums.PropertyType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,6 +20,7 @@ import java.math.BigDecimal;
 @Builder
 public class PropertyRequest {
 
+    @Schema(description = "Property title", example = "Luxury villa in Chennai")
     @NotBlank
     private String title;
 
