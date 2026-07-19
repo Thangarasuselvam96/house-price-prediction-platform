@@ -11,13 +11,17 @@ import com.thangu.backend.mapper.UserMapper;
 import com.thangu.backend.repository.RoleRepository;
 import com.thangu.backend.repository.UserRepository;
 import com.thangu.backend.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
 
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private UserRepository repository;
-    private RoleRepository roleRepository;
-    private UserMapper mapper;
+    private final UserRepository repository;
+    private final RoleRepository roleRepository;
+    private final UserMapper mapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserResponse register(RegisterRequest request) {
@@ -30,6 +34,7 @@ public class UserServiceImpl implements UserService {
         var user = mapper.toEntity(request);
         user.setStatus(UserStatus.ACTIVE);
         user.setRoles(Set.of(role));
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         repository.save(user);
         return mapper.toResponse(user);
     }
