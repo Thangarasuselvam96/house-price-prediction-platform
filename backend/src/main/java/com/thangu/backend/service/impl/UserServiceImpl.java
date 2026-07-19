@@ -2,7 +2,9 @@ package com.thangu.backend.service.impl;
 
 import com.thangu.backend.common.enums.RoleName;
 import com.thangu.backend.common.enums.UserStatus;
+import com.thangu.backend.dto.request.LoginRequest;
 import com.thangu.backend.dto.request.RegisterRequest;
+import com.thangu.backend.dto.response.LoginResponse;
 import com.thangu.backend.dto.response.UserResponse;
 import com.thangu.backend.entity.Role;
 import com.thangu.backend.exception.BadRequestException;
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -37,5 +40,23 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         repository.save(user);
         return mapper.toResponse(user);
+    }
+
+    @Override
+    public LoginResponse login(LoginRequest request) {
+        var user = repository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new BadRequestException("Invalid email or password"));
+
+        if(!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new BadRequestException("Invalid email or password");
+        }
+
+        return LoginResponse.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .roles(user.getRoles().stream().map(role -> role.getName().name()).collect(Collectors.toSet()))
+                .build();
     }
 }
