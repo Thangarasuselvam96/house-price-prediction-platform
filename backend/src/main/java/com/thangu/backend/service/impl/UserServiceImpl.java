@@ -12,19 +12,26 @@ import com.thangu.backend.exception.ResourceNotFoundException;
 import com.thangu.backend.mapper.UserMapper;
 import com.thangu.backend.repository.RoleRepository;
 import com.thangu.backend.repository.UserRepository;
+import com.thangu.backend.security.JWTService;
 import com.thangu.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final RoleRepository roleRepository;
     private final UserMapper mapper;
     private final PasswordEncoder passwordEncoder;
+    private final JWTService jwtService;
+    private final UserDetailsService userDetailsService;
 
     @Override
     public UserResponse register(RegisterRequest request) {
@@ -51,12 +58,17 @@ public class UserServiceImpl implements UserService {
             throw new BadRequestException("Invalid email or password");
         }
 
+        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+        var accessToken = jwtService.generateToken(userDetails);
+
         return LoginResponse.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
                 .roles(user.getRoles().stream().map(role -> role.getName().name()).collect(Collectors.toSet()))
+                .accessToken(accessToken)
+                .tokenType("Bearer")
                 .build();
     }
 }
