@@ -3,9 +3,11 @@ package com.thangu.backend.service.impl;
 import com.thangu.backend.dto.request.PropertyRequest;
 import com.thangu.backend.dto.response.PropertyResponse;
 import com.thangu.backend.entity.Property;
+import com.thangu.backend.entity.User;
 import com.thangu.backend.exception.ResourceNotFoundException;
 import com.thangu.backend.mapper.PropertyMapper;
 import com.thangu.backend.repository.PropertyRepository;
+import com.thangu.backend.security.CurrentUserService;
 import com.thangu.backend.service.PropertyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,9 +19,14 @@ import java.util.List;
 public class PropertyServiceImpl implements PropertyService {
     private final PropertyRepository repository;
     private final PropertyMapper mapper;
+    private final CurrentUserService currentUserService;
+    private final AuthorizationService authorizationService;
+
     @Override
     public PropertyResponse save(PropertyRequest request) {
+        User currentUser = currentUserService.currentUser();
         var property = mapper.toEntity(request);
+        property.setSeller(currentUser);
         return mapper.toResponse(repository.save(property));
     }
 
@@ -42,6 +49,7 @@ public class PropertyServiceImpl implements PropertyService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Property not found"));
 
+        authorizationService.canModifyProperty(existing);
         existing.setTitle(updatedProperty.getTitle());
         existing.setDescription(updatedProperty.getDescription());
         existing.setPrice(updatedProperty.getPrice());
@@ -61,6 +69,7 @@ public class PropertyServiceImpl implements PropertyService {
         Property property = repository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Property not found"));
+        authorizationService.canModifyProperty(property);
         repository.delete(property);
     }
 }

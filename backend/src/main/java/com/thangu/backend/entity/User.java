@@ -51,4 +51,7 @@ public class User {
 
     )
     private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "seller")
+    private Set<Property> properties;
 }

@@ -7,3 +7,9 @@ spring:
 jwt:
   secret: q9Yw7dKp4mR8uH3xZ1cVnL0sF2aB5eD7gI9jK6mN8pQ3rT5vX0zA4bC6dE8fG1hJ
   expiration: 3600000
+
+logging:
+  level:
+    org:
+      springframework:
+        security: TRACE

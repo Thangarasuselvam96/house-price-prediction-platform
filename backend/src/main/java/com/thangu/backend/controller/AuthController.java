@@ -1,5 +1,6 @@
 package com.thangu.backend.controller;
 
+import com.thangu.backend.common.enums.RoleName;
 import com.thangu.backend.dto.request.LoginRequest;
 import com.thangu.backend.dto.request.RegisterRequest;
 import com.thangu.backend.dto.response.LoginResponse;
@@ -20,9 +21,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final UserService userService;
 
-    @PostMapping("/register")
-    public ResponseEntity<UserResponse> register(@Valid @RequestBody RegisterRequest request) {
-        var response = userService.register(request);
+    @PostMapping("/register/buyer")
+    public ResponseEntity<UserResponse> registerBuyer(@Valid @RequestBody RegisterRequest request) {
+        var response = userService.register(request, RoleName.USER);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PostMapping("/register/seller")
+    public ResponseEntity<UserResponse> registerSeller(@Valid @RequestBody RegisterRequest request) {
+        var response = userService.register(request, RoleName.SELLER);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

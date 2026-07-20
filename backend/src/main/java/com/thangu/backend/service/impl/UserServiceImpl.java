@@ -34,11 +34,11 @@ public class UserServiceImpl implements UserService {
     private final UserDetailsService userDetailsService;
 
     @Override
-    public UserResponse register(RegisterRequest request) {
+    public UserResponse register(RegisterRequest request, RoleName name) {
         if(repository.existsByEmail(request.getEmail())) {
             throw new BadRequestException("Email already exists");
         }
-        var role = roleRepository.findByName(RoleName.USER)
+        var role = roleRepository.findByName(name)
                 .orElseThrow(() -> new ResourceNotFoundException("Internal server error"));
 
         var user = mapper.toEntity(request);
