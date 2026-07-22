@@ -55,7 +55,7 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public PageResponse<PropertyResponse> getAll(PropertySearchRequest request) {
 
-        Specification<Property> spec = Specification.where((Specification<Property>) null);
+        Specification<Property> spec = (root, query, cb) -> cb.conjunction();
         if(request.getCity() != null && !request.getCity().isBlank()) {
             spec = spec.and(PropertySpecification.hasCity(request.getCity()));
         }
