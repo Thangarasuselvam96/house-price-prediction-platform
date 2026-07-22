@@ -1,14 +1,21 @@
 package com.thangu.backend.controller;
 
 import com.thangu.backend.dto.request.PropertyRequest;
+import com.thangu.backend.dto.request.PropertySearchRequest;
+import com.thangu.backend.dto.response.PageResponse;
 import com.thangu.backend.dto.response.PropertyResponse;
 import com.thangu.backend.service.PropertyService;
+import com.thangu.backend.util.PageableValidator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -54,8 +61,9 @@ public class PropertyController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping
-    public ResponseEntity<List<PropertyResponse>> getAll() {
-        var response = propertyService.getAll();
+    public ResponseEntity<PageResponse<PropertyResponse>> getAll(@ModelAttribute PropertySearchRequest request) {
+        PageableValidator.validate(request);
+        var response = propertyService.getAll(request);
         return ResponseEntity.ok(response);
     }
 
