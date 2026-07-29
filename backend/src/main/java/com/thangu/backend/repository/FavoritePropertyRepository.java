@@ -16,4 +16,6 @@ public interface FavoritePropertyRepository extends JpaRepository<FavoriteProper
     Optional<FavoriteProperty> findByUserAndProperty(User user, Property property); // Removing a favorite
     @EntityGraph(attributePaths = "property")
     Page<FavoriteProperty> findByUser(User user, Pageable pageable); //Listing a buyer's favorites
+    Long countByUser(User user);
+    List<FavoriteProperty> findTop5ByUserOrderByCreatedAtDesc(User user);
 }
