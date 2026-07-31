@@ -12,6 +12,7 @@ import com.thangu.backend.mapper.PropertyMapper;
 import com.thangu.backend.repository.PropertyRepository;
 import com.thangu.backend.security.CurrentUserService;
 import com.thangu.backend.service.PropertyService;
+import com.thangu.backend.service.RecentlyViewedPropertyService;
 import com.thangu.backend.specification.PropertySpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,6 +31,7 @@ public class PropertyServiceImpl implements PropertyService {
     private final PropertyMapper mapper;
     private final CurrentUserService currentUserService;
     private final AuthorizationService authorizationService;
+    private final RecentlyViewedPropertyService recentlyViewedPropertyService;
 
     @Override
     public PropertyResponse save(PropertyRequest request) {
@@ -41,10 +43,15 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public PropertyResponse getById(Long id) {
-        return repository.findById(id)
-                .map(mapper::toResponse)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Property not found"));
+        User user = currentUserService.currentUser();
+        Property property = repository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Property not found"));
+
+        if(user != null) {
+            recentlyViewedPropertyService.recordRecentlyViewed(user, property);
+        }
+
+        return mapper.toResponse(property);
     }
 
     @Override
