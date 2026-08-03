@@ -13,4 +13,6 @@ public interface InquiryRepository extends JpaRepository<Inquiry, Long> {
     Page<Inquiry> findBySeller(User user, Pageable pageable);
     Long countByBuyer(User user);
     List<Inquiry> findTop5ByBuyerOrderByCreatedAtDesc(User user);
+    Long countBySeller(User seller);
+    List<Inquiry> findTop5BySellerOrderByCreatedAtDesc(User seller);
 }
