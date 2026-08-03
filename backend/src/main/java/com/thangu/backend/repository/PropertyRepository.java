@@ -4,6 +4,7 @@ import com.thangu.backend.common.enums.ListingStatus;
 import com.thangu.backend.common.enums.ListingType;
 import com.thangu.backend.common.enums.PropertyType;
 import com.thangu.backend.entity.Property;
+import com.thangu.backend.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,4 +22,6 @@ public interface PropertyRepository extends JpaRepository<Property, Long>, JpaSp
     List<Property> findByListingStatus(ListingStatus listingStatus);
     List<Property> findByCityAndListingStatus(String city, String listingStatus);
     Page<Property> findByCityIgnoreCase(String city, Pageable pageable);
+    Long countBySeller(User seller);
+    Long countBySellerAndListingStatus(User seller, String listingStatus);
 }
