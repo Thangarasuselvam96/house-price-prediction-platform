@@ -24,4 +24,5 @@ public interface PropertyRepository extends JpaRepository<Property, Long>, JpaSp
     Page<Property> findByCityIgnoreCase(String city, Pageable pageable);
     Long countBySeller(User seller);
     Long countBySellerAndListingStatus(User seller, String listingStatus);
+    Page<Property> findBySeller(User seller, Pageable pageable);
 }
