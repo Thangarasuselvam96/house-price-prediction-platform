@@ -1,0 +1,179 @@
+openapi: 3.0.3
+
+info:
+  title: House Price API
+  description: |
+    REST API for the House Price platform.
+
+    This API provides endpoints for:
+      - Authentication
+      - Property Management
+      - Buyer Features
+      - Seller Features
+      - Favorites
+      - Administration
+
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Local Development
+
+tags:
+  - name: Seller
+    description: Seller operations
+
+security:
+  - bearerAuth: []
+
+paths:
+
+  /api/v1/seller/properties/{propertyId}/status:
+
+    patch:
+
+      tags:
+        - Seller
+
+      summary: Update property status
+
+      description: |
+        Updates the listing status of a property owned by the authenticated seller.
+
+      operationId: updatePropertyStatus
+
+      security:
+        - bearerAuth: []
+
+      parameters:
+
+        - name: propertyId
+          in: path
+          required: true
+
+          schema:
+            type: integer
+            format: int64
+
+          description: Property identifier
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+
+            schema:
+              $ref: '#/components/schemas/PropertyStatusUpdateRequest'
+
+            examples:
+
+              sold:
+                summary: Mark property as sold
+
+                value:
+                  status: SOLD
+
+      responses:
+
+        '200':
+          description: Property status updated successfully
+
+          content:
+
+            application/json:
+
+              schema:
+                $ref: '#/components/schemas/PropertyResponse'
+
+        '400':
+          description: Invalid request
+
+          content:
+            application/json:
+
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+        '401':
+          description: Unauthorized
+
+        '403':
+          description: Seller does not own the property
+
+        '404':
+          description: Property not found
+
+components:
+
+  securitySchemes:
+
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+
+    PropertyStatusUpdateRequest:
+
+      type: object
+
+      required:
+        - status
+
+      properties:
+
+        status:
+          $ref: '#/components/schemas/ListingStatus'
+
+    PropertyResponse:
+
+      type: object
+
+      properties:
+
+        id:
+          type: integer
+          format: int64
+
+        title:
+          type: string
+
+        price:
+          type: number
+          format: double
+
+        listingStatus:
+          $ref: '#/components/schemas/ListingStatus'
+
+    ListingStatus:
+
+      type: string
+
+      enum:
+        - AVAILABLE
+        - PENDING
+        - SOLD
+
+    ErrorResponse:
+
+      type: object
+
+      properties:
+
+        timestamp:
+          type: string
+          format: date-time
+
+        status:
+          type: integer
+
+        error:
+          type: string
+
+        message:
+          type: string
+
+        path:
+          type: string

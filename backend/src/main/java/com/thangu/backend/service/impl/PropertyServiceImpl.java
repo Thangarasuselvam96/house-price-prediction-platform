@@ -6,6 +6,7 @@ import com.thangu.backend.dto.response.PageResponse;
 import com.thangu.backend.dto.response.PropertyResponse;
 import com.thangu.backend.entity.Property;
 import com.thangu.backend.entity.User;
+import com.thangu.backend.exception.BusinessException;
 import com.thangu.backend.exception.ResourceNotFoundException;
 import com.thangu.backend.mapper.PageMapper;
 import com.thangu.backend.mapper.PropertyMapper;
@@ -14,12 +15,15 @@ import com.thangu.backend.security.CurrentUserService;
 import com.thangu.backend.service.PropertyService;
 import com.thangu.backend.service.RecentlyViewedPropertyService;
 import com.thangu.backend.specification.PropertySpecification;
+import com.thangu.schema.model.ListingStatus;
+import com.thangu.schema.model.PropertyStatusUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -122,5 +126,24 @@ public class PropertyServiceImpl implements PropertyService {
                         new ResourceNotFoundException("Property not found"));
         authorizationService.canModifyProperty(property);
         repository.delete(property);
+    }
+
+    @Override
+    public com.thangu.schema.model.PropertyResponse updateStatus(Long propertyId, PropertyStatusUpdateRequest request) {
+        User user = currentUserService.currentUser();
+        Property property = repository.findById(propertyId).orElseThrow(() -> new ResourceNotFoundException("Property not found"));
+        if(!property.getSeller().getId().equals(user.getId())) {
+            throw new AccessDeniedException("You can update only your own properties");
+        }
+        validateStatus(property.getListingStatus(), request.getStatus());
+
+        property.setListingStatus(request.getStatus());
+        return mapper.toSchemaResponse(repository.save(property));
+    }
+
+    private void validateStatus(ListingStatus current, ListingStatus next) {
+        if(current == ListingStatus.SOLD && next == ListingStatus.AVAILABLE) {
+            throw new BusinessException("Listing cannot be reactivated");
+        }
     }
 }

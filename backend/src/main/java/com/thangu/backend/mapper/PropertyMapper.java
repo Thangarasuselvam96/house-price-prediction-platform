@@ -13,5 +13,6 @@ import java.util.List;
 public interface PropertyMapper {
     Property toEntity(PropertyRequest request);
     PropertyResponse toResponse(Property property);
+    com.thangu.schema.model.PropertyResponse toSchemaResponse(Property property);
     List<PropertyResponse> toResponseList(List<Property> properties);
 }
