@@ -64,3 +64,6 @@ Thumbs.db
 # ==========================
 *.tmp
 *.swp
+
+house-price-schema/.mvn/jvm.config
+house-price-schema/.mvn/maven.config

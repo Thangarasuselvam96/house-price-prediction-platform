@@ -4,6 +4,7 @@ import com.thangu.backend.dto.request.PropertyRequest;
 import com.thangu.backend.dto.request.PropertySearchRequest;
 import com.thangu.backend.dto.response.PageResponse;
 import com.thangu.backend.dto.response.PropertyResponse;
+import com.thangu.schema.model.PropertyStatusUpdateRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,4 +17,5 @@ public interface PropertyService {
     PageResponse<PropertyResponse> getAll(PropertySearchRequest request);
     PropertyResponse update(Long id, PropertyRequest property);
     void delete(Long id);
+    com.thangu.schema.model.PropertyResponse updateStatus(Long propertyId, PropertyStatusUpdateRequest request);
 }
