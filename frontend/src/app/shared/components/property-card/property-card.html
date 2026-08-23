@@ -1,0 +1,22 @@
+<article class="property-card">
+
+  <div class="property-image">
+    <span class="property-type">Apartment</span>
+  </div>
+
+  <div class="property-content">
+
+    <h3>{{ property.title }} </h3>
+
+    <p class="location">📍 {{ property.city }}, {{ property.state }}</p>
+
+    <p class="price">₹{{ property.price | number }}</p>
+
+    <a class="view-details"
+       [routerLink]="['/properties', property.id]">
+      View Details
+    </a>
+
+  </div>
+
+</article>

@@ -1,7 +1,9 @@
 package com.thangu.backend.service.impl;
 
+import com.thangu.backend.common.enums.ListingStatus;
 import com.thangu.backend.dto.request.PropertyRequest;
 import com.thangu.backend.dto.request.PropertySearchRequest;
+import com.thangu.backend.dto.request.PropertyStatusUpdateRequest;
 import com.thangu.backend.dto.response.PageResponse;
 import com.thangu.backend.dto.response.PropertyResponse;
 import com.thangu.backend.entity.Property;
@@ -15,8 +17,8 @@ import com.thangu.backend.security.CurrentUserService;
 import com.thangu.backend.service.PropertyService;
 import com.thangu.backend.service.RecentlyViewedPropertyService;
 import com.thangu.backend.specification.PropertySpecification;
-import com.thangu.schema.model.ListingStatus;
-import com.thangu.schema.model.PropertyStatusUpdateRequest;
+//import com.thangu.schema.model.ListingStatus;
+//import com.thangu.schema.model.PropertyStatusUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -129,7 +131,7 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public com.thangu.schema.model.PropertyResponse updateStatus(Long propertyId, PropertyStatusUpdateRequest request) {
+    public PropertyResponse updateStatus(Long propertyId, PropertyStatusUpdateRequest request) {
         User user = currentUserService.currentUser();
         Property property = repository.findById(propertyId).orElseThrow(() -> new ResourceNotFoundException("Property not found"));
         if(!property.getSeller().getId().equals(user.getId())) {
@@ -138,11 +140,11 @@ public class PropertyServiceImpl implements PropertyService {
         validateStatus(property.getListingStatus(), request.getStatus());
 
         property.setListingStatus(request.getStatus());
-        return mapper.toSchemaResponse(repository.save(property));
+        return mapper.toResponse(repository.save(property));
     }
 
     private void validateStatus(ListingStatus current, ListingStatus next) {
-        if(current == ListingStatus.SOLD && next == ListingStatus.AVAILABLE) {
+        if(current == ListingStatus.SOLD && next == ListingStatus.ACTIVE) {
             throw new BusinessException("Listing cannot be reactivated");
         }
     }

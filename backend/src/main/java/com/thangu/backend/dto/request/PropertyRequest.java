@@ -1,9 +1,9 @@
 package com.thangu.backend.dto.request;
 
 
+import com.thangu.backend.common.enums.ListingStatus;
 import com.thangu.backend.common.enums.ListingType;
 import com.thangu.backend.common.enums.PropertyType;
-import com.thangu.schema.model.ListingStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;

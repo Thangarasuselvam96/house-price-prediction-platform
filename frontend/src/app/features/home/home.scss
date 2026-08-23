@@ -87,3 +87,39 @@ button {
 
   cursor: pointer;
 }
+
+.featured-properties {
+  padding: 80px 64px;
+
+  background: #f8fafc;
+}
+
+.section-header {
+  max-width: 700px;
+  margin: 0 auto 40px;
+
+  text-align: center;
+
+  h2 {
+    margin: 0 0 12px;
+
+    color: #1f2937;
+    font-size: 32px;
+  }
+
+  p {
+    margin: 0;
+
+    color: #6b7280;
+    font-size: 16px;
+  }
+}
+
+.property-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}

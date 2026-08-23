@@ -8,13 +8,13 @@ CREATE TABLE recently_viewed_properties (
 
    last_viewed_at TIMESTAMP NOT NULL,
 
-   CONSTRAINT fk_recently_viewed_properties_user
+   CONSTRAINT fk_recently_viewed_property_user
        FOREIGN KEY (user_id)
            REFERENCES users(id),
 
-   CONSTRAINT fk_recently_viewed_properties_property
+   CONSTRAINT fk_recently_viewed_property_property
        FOREIGN KEY (property_id)
-           REFERENCES properties(id),
+           REFERENCES property(id),
 
-   CONSTRAINT uk_user_property UNIQUE(user_id, property_id)
+   CONSTRAINT uk_recently_viewed_user_property UNIQUE(user_id, property_id)
 );

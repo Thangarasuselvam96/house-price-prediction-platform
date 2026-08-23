@@ -1,0 +1,39 @@
+<section class="favorites">
+
+  <h1>My Favorites</h1>
+
+  @if (favorites.length === 0) {
+
+  <p>You haven't added any properties to your favorites.</p>
+
+  } @else {
+
+  <div class="favorites-grid">
+
+    @for (favorite of favorites; track favorite.propertyId) {
+
+    <article class="favorite-card">
+
+      <h2>{{ favorite.title }}</h2>
+
+      <p>
+        📍 {{ favorite.city }}
+      </p>
+
+      <p>
+        {{ favorite.propertyType }}
+      </p>
+
+      <strong>
+        ₹{{ favorite.price | number }}
+      </strong>
+
+    </article>
+
+    }
+
+  </div>
+
+  }
+
+</section>

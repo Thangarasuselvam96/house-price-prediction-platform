@@ -1,8 +1,9 @@
 package com.thangu.backend.entity;
 
+import com.thangu.backend.common.enums.ListingStatus;
 import com.thangu.backend.common.enums.ListingType;
 import com.thangu.backend.common.enums.PropertyType;
-import com.thangu.schema.model.ListingStatus;
+//import com.thangu.schema.model.ListingStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

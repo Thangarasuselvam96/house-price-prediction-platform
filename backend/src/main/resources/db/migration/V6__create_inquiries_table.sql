@@ -26,5 +26,5 @@ CREATE TABLE inquiries (
 
    CONSTRAINT fk_inquiry_property
        FOREIGN KEY (property_id)
-           REFERENCES properties(id)
+           REFERENCES property(id)
 );

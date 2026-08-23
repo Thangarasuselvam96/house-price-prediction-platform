@@ -16,7 +16,8 @@ public class CurrentUserServiceImpl implements CurrentUserService {
     public User currentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
-            throw new RuntimeException("User is not authenticated");
+//            throw new RuntimeException("User is not authenticated");
+            return null;
         }
         String email = authentication.getName();
         return userRepository.findByEmail(email)

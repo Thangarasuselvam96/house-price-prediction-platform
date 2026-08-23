@@ -1,0 +1,52 @@
+@if (property) {
+
+<main class="property-details">
+
+  <div class="property-image">
+    {{ property.propertyType }}
+  </div>
+
+  <section class="property-info">
+
+    <h1>{{ property.title }}</h1>
+
+    <p class="location">
+      📍 {{ property.city }}, {{ property.state }}
+    </p>
+
+    <p class="price">
+      ₹{{ property.price | number }}
+    </p>
+
+    <p class="description">
+      {{ property.description }}
+    </p>
+
+    <div class="property-meta">
+
+      <div>
+        <span>Property Type</span>
+        <strong>{{ property.propertyType }}</strong>
+      </div>
+
+      <div>
+        <span>Area</span>
+        <strong>{{ property.areaSqft }} sqft</strong>
+      </div>
+
+      <div>
+        <span>Listing Type</span>
+        <strong>{{ property.listingType }}</strong>
+      </div>
+
+    </div>
+
+    <button type="button" (click)="addFavorite()">
+      ❤️ Add to Favorites
+    </button>
+
+  </section>
+
+</main>
+
+}

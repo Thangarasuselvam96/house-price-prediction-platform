@@ -1,18 +1,16 @@
 package com.thangu.backend.controller;
 
 import com.thangu.backend.dto.request.PropertySearchRequest;
+import com.thangu.backend.dto.request.PropertyStatusUpdateRequest;
 import com.thangu.backend.dto.response.PageResponse;
 import com.thangu.backend.dto.response.PropertyResponse;
 import com.thangu.backend.dto.response.SellerDashboardResponse;
 import com.thangu.backend.service.PropertyService;
 import com.thangu.backend.service.SellerDashboardService;
-import com.thangu.schema.model.PropertyStatusUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/seller")
@@ -33,7 +31,7 @@ public class SellerDashboardController {
 
     @PatchMapping("/properties/{propertyId}/status")
     @PreAuthorize("hasRole('SELLER')")
-    public ResponseEntity<com.thangu.schema.model.PropertyResponse> updateStatus(
+    public ResponseEntity<PropertyResponse> updateStatus(
             @PathVariable Long propertyId,
             @RequestBody PropertyStatusUpdateRequest request
             ) {

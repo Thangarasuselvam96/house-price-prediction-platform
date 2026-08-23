@@ -29,3 +29,21 @@
 
   </div>
 </section>
+
+
+<section class="featured-properties">
+
+  <div class="section-header">
+    <h2>Featured Properties</h2>
+    <p>Explore some of the best properties available</p>
+  </div>
+
+  <div class="property-grid">
+
+    @for (property of properties; track property.id) {
+      <app-property-card [property]="property"></app-property-card>
+    }
+
+  </div>
+
+</section>
