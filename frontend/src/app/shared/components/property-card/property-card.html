@@ -1,20 +1,51 @@
 <article class="property-card">
 
   <div class="property-image">
-    <span class="property-type">Apartment</span>
+
+    <span class="property-type">
+      {{ property.propertyType }}
+    </span>
+
+    <button
+      type="button"
+      class="favorite-btn"
+      (click)="addFavorite($event)"
+      aria-label="Add to favorites">
+      {{ isFavorite ? '❤️' : '♡' }}
+    </button>
+
   </div>
+
+  @if(favoriteError) {
+    <p class="favorite-error">{{ favoriteError }}</p>
+  }
 
   <div class="property-content">
 
-    <h3>{{ property.title }} </h3>
+    <h3>{{ property.title }}</h3>
 
-    <p class="location">📍 {{ property.city }}, {{ property.state }}</p>
+    <p class="location">
+      📍 {{ property.city }}, {{ property.state }}
+    </p>
 
-    <p class="price">₹{{ property.price | number }}</p>
+    <div class="property-footer">
 
-    <a class="view-details"
-       [routerLink]="['/properties', property.id]">
+      <strong class="price">
+        {{ property.price | currency:'INR':'symbol':'1.0-0' }}
+      </strong>
+
+      <span class="area">
+        {{ property.areaSqft }} sqft
+      </span>
+
+    </div>
+
+    <a
+      class="view-details"
+      [routerLink]="['/properties', property.id]">
+
       View Details
+
     </a>
 
   </div>

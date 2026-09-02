@@ -1,0 +1,102 @@
+<section class="property-list">
+
+  <div class="page-header">
+
+    <h1>Find Your Property</h1>
+
+    <p>
+      Explore properties available across India
+    </p>
+
+  </div>
+
+  <div class="filter-bar">
+
+    <input
+      type="text"
+      placeholder="Search city or location"
+      [(ngModel)]="city"
+    />
+
+    <select [(ngModel)]="propertyType">
+
+      <option value="">Property Type</option>
+
+      <option value="HOUSE">House</option>
+      <option value="APARTMENT">Apartment</option>
+      <option value="VILLA">Villa</option>
+
+    </select>
+
+    <select [(ngModel)]="listingType">
+
+      <option value="">Listing Type</option>
+
+      <option value="SALE">For Sale</option>
+      <option value="RENT">For Rent</option>
+
+    </select>
+
+    <select [(ngModel)]="sortOption" (change)="applySort()">
+      <option value="newest">Newest</option>
+      <option value="priceLow">Price: Low to High</option>
+      <option value="priceHigh">Price: High to Low</option>
+    </select>
+
+    <button
+      type="button"
+      (click)="search()">
+
+      Search
+
+    </button>
+
+  </div>
+
+  <div class="property-grid">
+
+    @for (property of properties; track property.id) {
+
+    <app-property-card
+      [property]="property">
+    </app-property-card>
+
+    }
+
+  </div>
+
+  @if (properties.length === 0) {
+
+  <p class="empty">
+    No properties found.
+  </p>
+
+  }
+
+  <div class="pagination">
+
+    <button
+      type="button"
+      (click)="previousPage()"
+      [disabled]="page === 0">
+
+      Previous
+
+    </button>
+
+    <span>
+      Page {{ page + 1 }} of {{ totalPages }}
+    </span>
+
+    <button
+      type="button"
+      (click)="nextPage()"
+      [disabled]="page >= totalPages - 1">
+
+      Next
+
+    </button>
+
+  </div>
+
+</section>

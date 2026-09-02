@@ -1,0 +1,64 @@
+<div class="register-page">
+
+  <div class="register-card">
+
+    <h1>Create Account</h1>
+
+    <p>Join Magic Brick today</p>
+
+    <form (ngSubmit)="register()">
+
+      <label>First Name</label>
+
+      <input
+        type="text"
+        name="firstName"
+        [(ngModel)]="firstName"
+        placeholder="First name"
+        required
+      />
+
+      <label>Last Name</label>
+
+      <input
+        type="text"
+        name="lastName"
+        [(ngModel)]="lastName"
+        placeholder="Last name"
+        required
+      />
+
+      <label>Email</label>
+
+      <input
+        type="email"
+        name="email"
+        [(ngModel)]="email"
+        placeholder="Email"
+        required
+      />
+
+      <label>Password</label>
+
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        placeholder="Password"
+        required
+      />
+
+      <button type="submit">
+        Create Account
+      </button>
+
+    </form>
+
+    <p class="login-link">
+      Already have an account?
+      <a routerLink="/login">Login</a>
+    </p>
+
+  </div>
+
+</div>

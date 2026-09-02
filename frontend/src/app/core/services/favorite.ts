@@ -37,13 +37,6 @@ export class Favorite {
     size: number = 10
   ): Observable<PageResponse<FavoriteProperty>> {
 
-    return this.http.get<PageResponse<FavoriteProperty>>(
-      `${this.apiUrl}?page=${page}&size=${size}`,
-      {
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJidXllckBnbWFpbC5jb20iLCJpYXQiOjE3ODcxNjIyNzMsImV4cCI6MTc4NzE2NTg3M30.Yi9UuOvgqE1fft3_SRfWWjGtZy0qFzb5IJ4EDLrqpqaLEcT-ow4XtFLbnj_vV4Jz`
-        }
-      }
-    );
+    return this.http.get<PageResponse<FavoriteProperty>>(`${this.apiUrl}?page=${page}&size=${size}`);
   }
 }

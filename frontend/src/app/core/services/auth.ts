@@ -1,6 +1,7 @@
 import { Service, inject } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, tap} from 'rxjs';
+import {Register} from '../../features/auth/register/register';
 
 export interface LoginRequest {
   email: string;
@@ -9,6 +10,13 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   accessToken: string;
+}
+
+export interface RegisterRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
 }
 
 @Service()
@@ -21,6 +29,10 @@ export class Auth {
       .pipe(tap(response => {
         localStorage.setItem("access_token", response.accessToken);
       }));
+  }
+
+  registerBuyer(registerRequest: RegisterRequest): Observable<any> {
+    return this.http.post(this.apiUrl + '/register/buyer', registerRequest);
   }
 
   logout():void {
