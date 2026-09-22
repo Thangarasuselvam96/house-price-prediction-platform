@@ -1,8 +1,9 @@
-import {ChangeDetectorRef, Component, inject, Input} from '@angular/core';
+import {ChangeDetectorRef, Component, inject, Input, OnInit} from '@angular/core';
 import {Property} from '../../../core/services/property';
 import {CommonModule, DecimalPipe} from '@angular/common';
 import {RouterLink} from '@angular/router';
 import {Favorite} from '../../../core/services/favorite';
+import {Auth} from '../../../core/services/auth';
 
 @Component({
   selector: 'app-property-card',
@@ -10,15 +11,21 @@ import {Favorite} from '../../../core/services/favorite';
   templateUrl: './property-card.html',
   styleUrl: './property-card.scss',
 })
-export class PropertyCard {
+export class PropertyCard implements OnInit {
   private favoriteService = inject(Favorite);
   private cdr = inject(ChangeDetectorRef);
+  private authService = inject(Auth);
 
   @Input({ required: true })
   property !: Property;
 
   isFavorite: boolean = false;
   favoriteError: string = '';
+  isLoggedIn: boolean = false;
+
+  ngOnInit(): void {
+    this.isLoggedIn = this.authService.isLoggedIn();
+  }
 
   addFavorite(event: Event): void {
 

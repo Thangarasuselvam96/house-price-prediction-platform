@@ -6,6 +6,7 @@
       {{ property.propertyType }}
     </span>
 
+    @if(isLoggedIn) {
     <button
       type="button"
       class="favorite-btn"
@@ -13,6 +14,7 @@
       aria-label="Add to favorites">
       {{ isFavorite ? '❤️' : '♡' }}
     </button>
+    }
 
   </div>
 
