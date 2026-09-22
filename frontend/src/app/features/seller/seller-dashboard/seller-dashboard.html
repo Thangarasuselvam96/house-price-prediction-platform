@@ -25,17 +25,17 @@
 
     <div class="stat-card">
       <span>Total Properties</span>
-      <strong>0</strong>
+      <strong>{{ dashboard?.totalProperties ?? 0 }}</strong>
     </div>
 
     <div class="stat-card">
       <span>Active Listings</span>
-      <strong>0</strong>
+      <strong>{{ dashboard?.activeProperties ?? 0 }}</strong>
     </div>
 
     <div class="stat-card">
       <span>Sold</span>
-      <strong>0</strong>
+      <strong>{{ dashboard?.soldProperties ?? 0 }}</strong>
     </div>
 
   </div>

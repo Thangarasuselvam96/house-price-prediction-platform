@@ -1,5 +1,6 @@
 package com.thangu.backend.service.impl;
 
+import com.thangu.backend.common.enums.ListingStatus;
 import com.thangu.backend.dto.request.PropertySearchRequest;
 import com.thangu.backend.dto.response.PageResponse;
 import com.thangu.backend.dto.response.PropertyResponse;
@@ -31,8 +32,8 @@ public class SellerDashboardServiceImpl implements SellerDashboardService {
     public SellerDashboardResponse getDashboard() {
         User user = currentUserService.currentUser();
         return SellerDashboardResponse.builder()
-                .activeProperties(propertyRepository.countBySellerAndListingStatus(user, "active"))
-                .inActiveProperties(propertyRepository.countBySellerAndListingStatus(user, "inactive"))
+                .activeProperties(propertyRepository.countBySellerAndListingStatus(user, ListingStatus.ACTIVE))
+                .inActiveProperties(propertyRepository.countBySellerAndListingStatus(user, ListingStatus.INACTIVE))
                 .totalFavorites(favoritePropertyRepository.countFavoriteBySeller(user))
                 .totalInquiries(inquiryRepository.countBySeller(user))
                 .recentInquiryResponse(inquiryRepository.findTop5BySellerOrderByCreatedAtDesc(user).stream().map(InquiryMapper::toResponse).toList())
