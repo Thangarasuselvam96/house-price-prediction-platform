@@ -6,6 +6,8 @@ import {Login} from './features/auth/login/login';
 import {authGuard} from './core/guards/auth-guard';
 import {Register} from './features/auth/register/register';
 import {PropertyList} from './features/properties/property-list/property-list';
+import { SellerDashboard } from './features/seller/seller-dashboard/seller-dashboard';
+import { roleGuard } from './core/guards/role-guard';
 
 export const routes: Routes = [
   {
@@ -32,5 +34,13 @@ export const routes: Routes = [
   {
     path: "properties",
     component: PropertyList
+  },
+  {
+    path: "seller-dashboard",
+    component: SellerDashboard,
+    canActivate: [
+      authGuard,
+      roleGuard(['ROLE_SELLER'])
+    ]
   }
 ];
