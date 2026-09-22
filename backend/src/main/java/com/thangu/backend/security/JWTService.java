@@ -25,7 +25,17 @@ public class JWTService {
     private Long expiration;
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        Map<String, Object> claims = new HashMap<>();
+
+        claims.put(
+                "role",
+                userDetails.getAuthorities()
+                        .stream()
+                        .findFirst()
+                        .map(authority -> authority.getAuthority())
+                        .orElse("")
+        );
+        return generateToken(claims, userDetails);
     }
 
     //generate jwt token with extra claims
